@@ -1,0 +1,40 @@
+services:
+  # 1. PostgreSQL Servisi
+  db:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Redis Servisi 
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # 3. Backend Servisi 
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_REDIS_HOST: ${REDIS_HOST}
+      SPRING_REDIS_PORT: ${REDIS_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:
