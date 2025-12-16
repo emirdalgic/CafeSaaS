@@ -4,6 +4,7 @@ import com.cafesaas.backend.model.enums.OrderStatus;
 import com.cafesaas.backend.model.enums.OrderType;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ public class Order extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Double totalAmount;
+    private BigDecimal totalAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_id", nullable = false)

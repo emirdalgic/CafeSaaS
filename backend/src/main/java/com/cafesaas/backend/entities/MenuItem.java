@@ -2,6 +2,7 @@ package com.cafesaas.backend.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +18,7 @@ public class MenuItem {
     private String description;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     private String imageUrl; //ilerde cnd linki eklenicek
 

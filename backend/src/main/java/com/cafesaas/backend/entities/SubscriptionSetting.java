@@ -3,6 +3,8 @@ package com.cafesaas.backend.entities;
 import com.cafesaas.backend.model.enums.SubscriptionPlanType;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "subscription_settings")
 public class SubscriptionSetting {
@@ -15,5 +17,5 @@ public class SubscriptionSetting {
     private SubscriptionPlanType planType;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 }
