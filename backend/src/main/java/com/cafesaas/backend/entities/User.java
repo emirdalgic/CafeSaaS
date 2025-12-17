@@ -46,6 +46,7 @@ public class User extends BaseEntity implements UserDetails {
     private AccountStatus status;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Cafe> cafes;
 
 

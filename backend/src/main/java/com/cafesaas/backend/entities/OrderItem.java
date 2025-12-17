@@ -2,6 +2,7 @@ package com.cafesaas.backend.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -13,14 +14,19 @@ public class OrderItem extends BaseEntity {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_item_id")
+    @JoinColumn(name = "menu_item_id", nullable = true)
     private MenuItem menuItem;
 
+    @Column(name = "product_name", nullable = false)
+    private String productName;
+
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    private double priceAtPurchase;
+    @Column(name = "price_at_purchase", nullable = false)
+    private BigDecimal priceAtPurchase;
 }

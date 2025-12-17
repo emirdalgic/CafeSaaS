@@ -1,12 +1,16 @@
 package com.cafesaas.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "menu_categories")
+@Getter
+@Setter
 public class MenuCategory {
 
     @Id

@@ -2,10 +2,7 @@ package com.cafesaas.backend.entities;
 
 import com.cafesaas.backend.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -39,5 +36,6 @@ public class Cafe extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
+    @ToString.Exclude
     private User owner;
 }

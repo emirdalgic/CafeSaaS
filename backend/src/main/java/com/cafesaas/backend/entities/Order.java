@@ -1,7 +1,7 @@
 package com.cafesaas.backend.entities;
 
 import com.cafesaas.backend.model.enums.OrderStatus;
-import com.cafesaas.backend.model.enums.OrderType;
+import com.cafesaas.backend.model.enums.OrderSource;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -25,14 +25,21 @@ public class Order extends BaseEntity{
     private List<OrderItem> items;
 
 
-    /* burayı qr menüde ödeme alıp almama duruma göre kullanıcam
-    @Enumerated(EnumType.STRING)
-    private OrderType orderType; // QR_MENU veya CASH_REGISTER
 
+    //belki ilerde paranın cash mi postan mı yapıldığını tutarız
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;  // PENDING, PAID, CANCELLED
+    private OrderSource source = OrderSource.TERMINAL; // QR_MENU veya Terminal
+
+    /*
+    WAITING_FOR_APPROVAL(false),
+    APPROVED_PAYMENT_PENDING(false),
+    PREPARING(false),
+    READY(false),
+    COMPLETED(true),
+    CANCELLED(true);*/
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
 
     private String paymentTransactionId; // payment sağlayıcısından dönen id
-     */
 }

@@ -1,38 +1,46 @@
 package com.cafesaas.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
 @Table(name = "menu_items")
+@Getter
+@Setter
+@Builder
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(name = "name")
     private String name;
 
-    private String description;
-
-    @Column(nullable = false)
+    @Column(name = "price")
     private BigDecimal price;
 
-    private String imageUrl; //ilerde cnd linki eklenicek
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
 
-    //qrda ödeme alıp almamıza göre burası silincek. bir de bunun düzgün çalışması için
-    //adamın stoğunu tutmalıyız ki stok dediğin her zaman son ürün olmayabilir
-    //bu durumda işletme kısmında her sabah dükkanı açarken gidip el ile tek tek bugun 20 hambuger yaparz vs
-    //falan demesi gerekçek o yüzden pek gerçekçi değil
-    //dersen eğer qr menüde ödeme alınsın ve avaible kısmı takibi zor olduğu için kaldırılsnı
-    //bu durumda payment kısmında ürünün varlığı ya da yokluğu hakkında bir doğrulama sağlayamayız ve
-    //müşteri olmayan bir şeye para ödemiş olabilir.
-    //şimdilik bunu böyle bırakıyorum kararı netleştirince bakarız
+    //buranın paymenta herhangi bir etkisi yok
+    //sadece terminal üzerinde avaible no denirse menüden o ürün avaible olarana kadar kaldırılıcak(delete yok)
+    @Column(name = "is_available")
+    @Builder.Default
     private boolean available = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private MenuCategory category;
+    @JoinColumn(name = "category_id",nullable = false)
+    @ToString.Exclude
+    private MenuCategory menuCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cafe_id",nullable = false)
+    @ToString.Exclude
+    private Cafe cafe;
 }
