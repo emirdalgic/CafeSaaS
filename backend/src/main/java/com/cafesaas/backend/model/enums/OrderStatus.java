@@ -1,11 +1,28 @@
 package com.cafesaas.backend.model.enums;
 
 public enum OrderStatus {
-    PENDING, PAID, CANCELLED;
+    WAITING_FOR_APPROVAL(false),
+    APPROVED_PAYMENT_PENDING(false),
+    PREPARING(false),
+    READY(false),
+    COMPLETED(true),
+    CANCELLED(true);
 
-    public boolean canTransitionTo(OrderStatus next) {
-        if (this == CANCELLED) return false;
-        if (this == PAID && next == PENDING) return false;
-        return true;
+    private final boolean terminal;
+
+    OrderStatus(boolean terminal) {
+        this.terminal = terminal;
+    }
+
+    public boolean isActive() {
+        return !terminal;
+    }
+
+    public boolean canCancel() {
+        return this == WAITING_FOR_APPROVAL || this == APPROVED_PAYMENT_PENDING;
+    }
+
+    public boolean isPayable() {
+        return this == APPROVED_PAYMENT_PENDING;
     }
 }
