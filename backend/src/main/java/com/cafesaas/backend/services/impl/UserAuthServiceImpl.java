@@ -39,6 +39,7 @@ public class UserAuthServiceImpl implements IUserAuthService {
         return new AuthResponse(accessToken, refreshToken);
     }
 
+    //ilerde mail verifikasyonu eklenicek şimdilik user işlemlerinde uğraşmayalım.
     @Override
     @Transactional
     public AuthResponse register(RegisterRequest request) {
