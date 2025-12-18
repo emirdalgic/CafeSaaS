@@ -2,6 +2,9 @@ package com.cafesaas.backend.entities;
 
 import com.cafesaas.backend.model.enums.SubscriptionStatus;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -9,6 +12,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_subscriptions")
+@Getter
+@Setter
+@Builder
 public class UserSubscription {
 
     @Id

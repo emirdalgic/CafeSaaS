@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MenuItem extends BaseEntity {
+public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -27,6 +27,10 @@ public class MenuItem extends BaseEntity {
     @Column(name = "image_url", length = 500)
     private String imageUrl;
 
+    //frontta sorting işlemi için kullanılcak
+    @Column(name = "display_order", nullable = false)
+    private Integer displayOrder = 0;
+
     //buranın paymenta herhangi bir etkisi yok
     //sadece terminal üzerinde avaible no denirse menüden o ürün avaible olarana kadar kaldırılıcak(delete yok)
     @Column(name = "is_available")
@@ -37,9 +41,4 @@ public class MenuItem extends BaseEntity {
     @JoinColumn(name = "category_id",nullable = false)
     @ToString.Exclude
     private MenuCategory category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cafe_id",nullable = false)
-    @ToString.Exclude
-    private Cafe cafe;
 }

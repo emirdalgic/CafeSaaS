@@ -49,6 +49,10 @@ public class User extends BaseEntity implements UserDetails {
     @ToString.Exclude
     private List<Cafe> cafes;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<UserSubscription> subscriptions;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
