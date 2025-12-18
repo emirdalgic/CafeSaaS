@@ -16,6 +16,14 @@ import java.util.UUID;
 public class MenuCategoryServiceImpl implements IMenuCategoryService {
     private final MenuCategoryRepository menuCategoryRepository;
 
+
+    //helper fonksiyonlar
+    public DtoMenuCategory mapToDto(MenuCategory menuCategory){
+        return null;
+    }
+
+    //public controllera bakan kısım
+
     @Override
     public DtoMenuCategory findCategoryById(UUID id) {
         MenuCategory menuCategory = menuCategoryRepository.findById(id)
@@ -26,4 +34,6 @@ public class MenuCategoryServiceImpl implements IMenuCategoryService {
                 .name(menuCategory.getName())
                 .build();
     }
+
+    //private controllera bakan kısım
 }

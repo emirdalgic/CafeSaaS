@@ -1,14 +1,14 @@
 package com.cafesaas.backend.controller.impl;
 
-import com.cafesaas.backend.controller.IMenuCategoryController;
+import com.cafesaas.backend.controller.IMenuCategoryPrivateController;
 import com.cafesaas.backend.services.IMenuCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/api/categories")
+@RequestMapping("api/v1/private/categories")
 @RequiredArgsConstructor
-public class MenuCategoryImpl implements IMenuCategoryController {
+public class MenuCategoryPrivateControllerImpl implements IMenuCategoryPrivateController {
     private final IMenuCategoryService menuCategoryService;
 }
