@@ -12,5 +12,6 @@ public class DtoCafeSummary {
     private UUID id;
     private String cafeName;
     private String cafeUsername;
+    private String slug;
     private Role role;
 }

@@ -20,10 +20,6 @@ public class MenuCategory {
     @Column(name = "name")
     private String name;
 
-    //frontta sorting işlemi için kullanılcak
-    @Column(name = "display_order", nullable = false)
-    private Integer displayOrder = 0;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;

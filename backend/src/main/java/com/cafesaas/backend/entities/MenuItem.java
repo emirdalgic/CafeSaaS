@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MenuItem {
+public class MenuItem extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -26,10 +26,6 @@ public class MenuItem {
 
     @Column(name = "image_url", length = 500)
     private String imageUrl;
-
-    //frontta sorting işlemi için kullanılcak
-    @Column(name = "display_order", nullable = false)
-    private Integer displayOrder = 0;
 
     //buranın paymenta herhangi bir etkisi yok
     //sadece terminal üzerinde avaible no denirse menüden o ürün avaible olarana kadar kaldırılıcak(delete yok)

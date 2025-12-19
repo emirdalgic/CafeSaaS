@@ -30,6 +30,9 @@ public class Cafe extends BaseEntity{
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "slug", unique = true, nullable = false)
+    private String slug;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role = Role.CAFE_TERMINAL;

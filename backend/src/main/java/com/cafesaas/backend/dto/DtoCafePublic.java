@@ -9,11 +9,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DtoCafePublic {
+public class DtoCafePublic {//frontta headerda çekmelik
 
     private UUID id;
 
-    private String cafeName;
+    private String cafeName;//görünen ad
+
+    private String slug;
 
     private String address;
 
