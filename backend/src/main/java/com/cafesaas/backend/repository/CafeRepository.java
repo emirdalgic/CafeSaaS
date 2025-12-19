@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface CafeRepository extends JpaRepository<Cafe,UUID> {
     Optional<Cafe> findByCafeUsername(String cafeUsername);
+    Optional<Cafe> findBySlug(String slug);
 }

@@ -1,5 +1,6 @@
 package com.cafesaas.backend.services.impl;
 
+import com.cafesaas.backend.dto.DtoCategoryNode;
 import com.cafesaas.backend.dto.DtoMenuItem;
 import com.cafesaas.backend.dto.DtoMenuItemIU;
 import com.cafesaas.backend.entities.Cafe;
@@ -20,7 +21,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class MenuItemServiceImpl implements IMenuItemService {
     private final MenuItemRepository menuItemRepository;
     private final AccessControllService accessControllService;
     private final MenuCategoryRepository menuCategoryRepository;
+    private final CafeRepository cafeRepository;
 
 
     //helper fonksiyonlar
@@ -56,6 +61,30 @@ public class MenuItemServiceImpl implements IMenuItemService {
         return mapToDto(menuItem);
     }
 
+
+    @Override
+    public List<DtoCategoryNode> getMenuItemsShowCase(String cafeSlug) {
+        Cafe cafe = cafeRepository.findBySlug(cafeSlug)
+                .orElseThrow(()-> new BaseException(MessageType.NO_RECORD_EXIST));
+        List<MenuCategory> menuCategories = menuCategoryRepository.findByCafe_Id(cafe.getId());
+        List<DtoCategoryNode> categoryNodeList = new ArrayList<>();
+        for(MenuCategory cat : menuCategories){
+            List<MenuItem> topItems = menuItemRepository.findTop5ByCategory_IdOrderByCreatedAtDesc(cat.getId());
+            if(topItems.isEmpty()){
+                continue;
+            }
+            DtoCategoryNode node = new DtoCategoryNode();
+            node.setCategoryName(cat.getName());
+            node.setCategoryId(cat.getId());
+
+            node.setItems(
+                    topItems.stream()
+                            .map(this::mapToDto)
+                            .collect(Collectors.toList()));
+            categoryNodeList.add(node);
+        }
+        return categoryNodeList;
+    }
 
     //private controllera bakan kısım
 

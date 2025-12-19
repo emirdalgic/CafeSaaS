@@ -4,6 +4,7 @@ import com.cafesaas.backend.controller.IMenuItemPrivateController;
 import com.cafesaas.backend.dto.DtoMenuItem;
 import com.cafesaas.backend.dto.DtoMenuItemIU;
 import com.cafesaas.backend.services.IMenuItemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class MenuItemPrivateControllerImpl implements IMenuItemPrivateController
 
     @PostMapping("/save")
     @Override
-    public ResponseEntity<DtoMenuItem> createMenuItem(@RequestBody DtoMenuItemIU dtoMenuItemIU) {
+    public ResponseEntity<DtoMenuItem> createMenuItem(@RequestBody @Valid DtoMenuItemIU dtoMenuItemIU) {
         DtoMenuItem response = menuItemService.createMenuItem(dtoMenuItemIU);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -34,7 +35,7 @@ public class MenuItemPrivateControllerImpl implements IMenuItemPrivateController
     @PutMapping("/update/{id}")
     @Override
     public ResponseEntity<DtoMenuItem> updateMenuItemById(@PathVariable(name = "id") UUID id,
-                                                          @RequestBody DtoMenuItemIU dtoMenuItemIU) {
+                                                          @RequestBody @Valid DtoMenuItemIU dtoMenuItemIU) {
         return ResponseEntity.ok(menuItemService.updateMenuItemById(id,dtoMenuItemIU));
     }
 }
