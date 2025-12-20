@@ -30,7 +30,7 @@ public class UserSubscription {
     private SubscriptionPlan plan;
 
     @Enumerated(EnumType.STRING)
-    private SubscriptionStatus status = SubscriptionStatus.ACTIVE;
+    private SubscriptionStatus status;
 
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
@@ -41,10 +41,17 @@ public class UserSubscription {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public int getCafeLimit() {
+        return plan.getCafeLimit();
+    }
+
     @Transient
     public boolean isActive() {
+        if (plan == null || status == null)
+            return false;
         LocalDateTime now = LocalDateTime.now();
-        if (status == SubscriptionStatus.INACTIVE) return false;
+        if (status == SubscriptionStatus.INACTIVE)
+            return false;
         return now.isAfter(startDate) && now.isBefore(endDate);
     }
 }
