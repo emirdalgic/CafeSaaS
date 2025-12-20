@@ -3,7 +3,8 @@ package com.cafesaas.backend.model.enums;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-
+    // Yardım merkezi (Teknik Ekip için)
+    ADMIN("Teknik Ekip"),
     // İşletme sahibi (User Entity için)
     OWNER("İşletme Sahibi"),
 

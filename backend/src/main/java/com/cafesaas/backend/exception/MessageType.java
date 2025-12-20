@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum MessageType {
     NO_RECORD_EXIST("no record found"),
     GENERAL_EXCEPTION("an error occured"),
-    INVALID_QUANTITY("Invalid product quantity"),
+    SUBSCRIPTION_EXPIRED("subscription expired"),
+    CAFE_LIMIT_EXCEEDED("cafe limit exceeded"),
     INSUFFICIENT_STOCK("Not enough stock available"),
     UNAUTHORIZED_ACCESS("No token or Invalid token");
 
