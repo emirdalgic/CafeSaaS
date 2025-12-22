@@ -3,8 +3,6 @@ package com.cafesaas.backend.model.enums;
 public enum OrderStatus {
     WAITING_FOR_APPROVAL(false),
     APPROVED_PAYMENT_PENDING(false),
-    PREPARING(false),
-    READY(false),
     COMPLETED(true),
     CANCELLED(true);
 

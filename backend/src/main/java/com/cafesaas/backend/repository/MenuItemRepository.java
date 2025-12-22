@@ -5,6 +5,8 @@ import com.cafesaas.backend.entities.MenuItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +16,16 @@ import java.util.UUID;
 public interface MenuItemRepository extends JpaRepository<MenuItem, UUID> {
     Page<MenuItem> getItemsByCategoryId(UUID categoryId, Pageable pageable);
     List<MenuItem> findTop5ByCategory_IdOrderByCreatedAtDesc(UUID categoryId);
+    boolean existsByIdAndCategory_Cafe_Id(UUID menuItemId, UUID cafeId);
+    Page<MenuItem> findAllByCategory_Cafe_IdAndAvailable(UUID cafeId, boolean isAvailable, Pageable pageable);
+
+    @Query("SELECT m FROM MenuItem m WHERE " +
+            "m.category.cafe.id = :cafeId " +
+            "AND m.available = true " +
+            "AND (:query IS NULL OR LOWER(m.name) LIKE LOWER(CONCAT('%', :query, '%')))") // 3. Arama
+    Page<MenuItem> searchActiveItems(
+            @Param("cafeId") UUID cafeId,
+            @Param("query") String query,
+            Pageable pageable
+    );
 }

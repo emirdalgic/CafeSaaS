@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -86,7 +87,33 @@ public class MenuItemServiceImpl implements IMenuItemService {
         return categoryNodeList;
     }
 
+
     //private controllera bakan kısım
+
+    @Override
+    public Page<DtoMenuItem> getPassiveProducts(UUID cafeId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MenuItem> menuItemPage = menuItemRepository.findAllByCategory_Cafe_IdAndAvailable(cafeId, false, pageable);
+        return menuItemPage.map(this::mapToDto);
+    }
+
+    @Override
+    public Page<DtoMenuItem> searchItems(UUID cafeId, String query, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<MenuItem> menuItemPage = menuItemRepository.searchActiveItems(cafeId, query, pageable);
+        return menuItemPage.map(this::mapToDto);
+    }
+
+    @Override
+    public void updateItemAvailability(UUID cafeId, UUID menuItemId, boolean isAvailable) {
+        MenuItem menuItem = menuItemRepository.findById(menuItemId)
+                .orElseThrow(()-> new BaseException(MessageType.NO_RECORD_EXIST));
+        if(!menuItem.getCategory().getCafe().getId().equals(cafeId)){
+            throw new AccessDeniedException("bu ürünü düzenleme yetkiniz yok");
+        }
+        menuItem.setAvailable(true);
+        menuItemRepository.save(menuItem);
+    }
 
     @Transactional
     @Override
