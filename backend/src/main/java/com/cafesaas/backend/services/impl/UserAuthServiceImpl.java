@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.cafesaas.backend.dto.AuthResponse;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class UserAuthServiceImpl implements IUserAuthService {
@@ -33,8 +36,13 @@ public class UserAuthServiceImpl implements IUserAuthService {
 
         User user = userRepository.findByEmail(request.email()).orElseThrow();
 
-        String accessToken = jwtService.generateToken(user);
-        String refreshToken = refreshTokenService.createRefreshToken(user.getEmail(), "OWNER");
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getRole().name());
+        claims.put("userId", user.getId());
+
+        String accessToken = jwtService.generateToken(claims, user);
+
+        String refreshToken = refreshTokenService.createRefreshToken(user.getEmail(), user.getRole().name());
 
         return new AuthResponse(accessToken, refreshToken);
     }
@@ -59,8 +67,12 @@ public class UserAuthServiceImpl implements IUserAuthService {
 
         userRepository.save(user);
 
-        String accessToken = jwtService.generateToken(user);
-        String refreshToken = refreshTokenService.createRefreshToken(user.getEmail(), "OWNER");
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getRole().name());
+        claims.put("userId", user.getId());
+
+        String accessToken = jwtService.generateToken(claims, user);
+        String refreshToken = refreshTokenService.createRefreshToken(user.getEmail(), user.getRole().name());
 
         return new AuthResponse(accessToken, refreshToken);
     }

@@ -27,7 +27,7 @@ public class AccessControllService {
                 .anyMatch(sub ->
                         sub.getStatus() == SubscriptionStatus.ACTIVE);
 
-        if(hasActiveSubsription){
+        if(!hasActiveSubsription){
             throw new AccessDeniedException("Aktif bir aboneliğiniz bulunmamaktadır. Lütfen planınızı kontrol ediniz");
         }
         boolean isOwner = user.getCafes().stream()

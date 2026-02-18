@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/api/public/categories")
+@RequestMapping("/api/v1/public/categories")
 @RequiredArgsConstructor
 public class MenuCategoryPublicControllerImpl implements IMenuCategoryPublicController {
     private final IMenuCategoryService menuCategoryService;

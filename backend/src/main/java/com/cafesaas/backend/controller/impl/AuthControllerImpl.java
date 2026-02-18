@@ -35,7 +35,7 @@ public class AuthControllerImpl implements IAuthController {
         return ResponseEntity.ok(userAuthService.login(request));
     }
 
-    @PostMapping(path = "/cafe/login ")
+    @PostMapping(path = "/cafe/login")
     @Override
     public ResponseEntity<AuthResponse> loginCafe(@RequestBody @Valid CafeLoginRequest request) {
         return ResponseEntity.ok(cafeAuthService.login(request));

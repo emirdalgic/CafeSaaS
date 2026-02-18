@@ -32,7 +32,7 @@ public class CafeControllerImpl implements ICafeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("update/{cafeId}")
+    @PutMapping("/update/{cafeId}")
     @Override
     public ResponseEntity<DtoCafeSummary> updateCafe(@RequestBody DtoCafeUpdateIU dtoCafeUpdateIU,
                                                      @AuthenticationPrincipal UserDetails userDetails,

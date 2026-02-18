@@ -31,14 +31,15 @@ public class AdminCafeControllerImpl implements IAdminCafeController {
     @PostMapping("/user/{userId}")
     @Override
     public ResponseEntity<DtoCafeSummary> createCafeOnBehalfOfUser(@RequestBody @Valid DtoCafeRegisterIU dtoCafeRegisterIU,
-                                                                   @PathVariable(name = "userIds") UUID userId) {
+                                                                   @PathVariable(name = "userId") UUID userId) {
         DtoCafeSummary response = cafeService.createCafe(dtoCafeRegisterIU, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{cafeId}")
-    @Override
-    public ResponseEntity<DtoCafeSummary> updateCafeAsAdmin(@RequestBody DtoCafeUpdateIU dtoCafeUpdateIU, UUID userId, UUID cafeId) {
+    @Override//buraya dönücem bi ara
+    public ResponseEntity<DtoCafeSummary> updateCafeAsAdmin(@RequestBody DtoCafeUpdateIU dtoCafeUpdateIU, @PathVariable(name = "userId") UUID userId,
+                                                            @PathVariable(name = "cafeId") UUID cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(()-> new BaseException(MessageType.NO_RECORD_EXIST));
         DtoCafeSummary response = cafeService.updateCafe(dtoCafeUpdateIU,userId,cafe.getId());
