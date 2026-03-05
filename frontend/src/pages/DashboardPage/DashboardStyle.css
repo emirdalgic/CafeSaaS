@@ -1,0 +1,53 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); /* 12 eşit parçaya böler */
+  min-height: 100vh;
+}
+
+.sidebar {
+  grid-column: span 3; /* 12 üzerinden 3 birim kaplar */
+  background-color: #000;
+}
+
+.main-content {
+  grid-column: span 9; /* 12 üzerinden 9 birim kaplar */
+  background-color: #8b8b8b;
+}
+
+.logo {
+  color: #fff;
+  text-align: center;
+  padding: 2em;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.side-menu {
+  list-style: none;
+}
+
+.side-menu li {
+    display: flex;
+    align-items: center;
+    padding: 1em 0em;
+    text-align: center;
+    color: #949494;
+    cursor: pointer;
+    font-size: x-large;
+    font-weight: bold;
+    padding-left: 2.5em;
+}
+
+.side-menu li span {
+    margin-left: 1em;
+}
+.side-menu li:hover{
+    background-color: #464242;
+    color: #fff;
+}
+
+.side-menu li.active {
+    background-color: #464242;
+    color: #fff;
+    border-right: 4px solid #fff;
+}

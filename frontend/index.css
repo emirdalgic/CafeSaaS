@@ -1,0 +1,13 @@
+/* Tüm elemanlar için margin ve padding'i sıfırla */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Padding ekleyince genişliğin bozulmasını engeller */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+/* Sayfanın en dış katmanındaki boşluğu kaldır */
+body, html {
+  width: 100%;
+  height: 100%;
+}
