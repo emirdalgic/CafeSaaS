@@ -22,7 +22,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,6 +45,9 @@ public class MenuItemServiceImpl implements IMenuItemService {
         if(menuItem.getCategory() != null){
             dtoMenuItem.setCategoryId(menuItem.getCategory().getId());
         }
+
+        boolean hasVars = menuItem.getVariants() != null && !menuItem.getVariants().isEmpty();
+        dtoMenuItem.setHasVariants(hasVars);
         return dtoMenuItem;
     }
 
@@ -111,7 +116,7 @@ public class MenuItemServiceImpl implements IMenuItemService {
         if(!menuItem.getCategory().getCafe().getId().equals(cafeId)){
             throw new AccessDeniedException("bu ürünü düzenleme yetkiniz yok");
         }
-        menuItem.setAvailable(true);
+        menuItem.setAvailable(isAvailable);
         menuItemRepository.save(menuItem);
     }
 
@@ -133,6 +138,16 @@ public class MenuItemServiceImpl implements IMenuItemService {
         MenuItem menuItem = new MenuItem();
         BeanUtils.copyProperties(dtoMenuItemIU, menuItem);
         menuItem.setCategory(menuCategory);
+        if (dtoMenuItemIU.getVariants() != null && !dtoMenuItemIU.getVariants().isEmpty()) {
+            BigDecimal minVariantPrice = dtoMenuItemIU.getVariants().values().stream()
+                    .min(BigDecimal::compareTo)
+                    .orElse(BigDecimal.ZERO);
+            menuItem.setPrice(minVariantPrice);
+            menuItem.setVariants(dtoMenuItemIU.getVariants());
+        } else {
+            menuItem.setPrice(dtoMenuItemIU.getPrice());
+            menuItem.setVariants(new HashMap<>());
+        }
         MenuItem savedmenuItem = menuItemRepository.save(menuItem);
         return mapToDto(savedmenuItem);
     }
@@ -143,13 +158,28 @@ public class MenuItemServiceImpl implements IMenuItemService {
         MenuItem menuItem = menuItemRepository.findById(id)
                 .orElseThrow(()-> new BaseException(MessageType.NO_RECORD_EXIST));
         accessControllService.checkCafeAccess(menuItem.getCategory().getCafe().getId());
+
         MenuCategory menuCategory = menuCategoryRepository.findById(dtoMenuItemIU.getCategoryId())
-                        .orElseThrow(()-> new BaseException(MessageType.NO_RECORD_EXIST));
-        if(menuCategory.getId().equals(menuItem.getCategory().getId())){
+                .orElseThrow(()-> new BaseException(MessageType.NO_RECORD_EXIST));
+
+        if(!menuCategory.getId().equals(menuItem.getCategory().getId())){
             accessControllService.checkCafeAccess(menuCategory.getCafe().getId());
         }
+
         BeanUtils.copyProperties(dtoMenuItemIU, menuItem);
         menuItem.setCategory(menuCategory);
+
+        if (dtoMenuItemIU.getVariants() != null && !dtoMenuItemIU.getVariants().isEmpty()) {
+            BigDecimal minVariantPrice = dtoMenuItemIU.getVariants().values().stream()
+                    .min(BigDecimal::compareTo)
+                    .orElse(BigDecimal.ZERO);
+            menuItem.setPrice(minVariantPrice);
+            menuItem.setVariants(dtoMenuItemIU.getVariants());
+        } else {
+            menuItem.setPrice(dtoMenuItemIU.getPrice());
+            menuItem.setVariants(new HashMap<>());
+        }
+
         MenuItem savedmenuItem = menuItemRepository.save(menuItem);
         return mapToDto(savedmenuItem);
     }

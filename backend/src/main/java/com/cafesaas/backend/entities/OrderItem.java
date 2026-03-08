@@ -35,4 +35,7 @@ public class OrderItem extends BaseEntity {
 
     @Column(name = "price_at_purchase", nullable = false)
     private BigDecimal priceAtPurchase;
+
+    @Column(name = "selected_variant")
+    private String selectedVariant;
 }

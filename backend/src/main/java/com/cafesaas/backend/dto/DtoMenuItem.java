@@ -3,6 +3,7 @@ package com.cafesaas.backend.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -22,4 +23,8 @@ public class DtoMenuItem {
     private boolean available;
 
     private UUID categoryId;
+
+    private Map<String, BigDecimal> variants;
+
+    private boolean hasVariants;
 }

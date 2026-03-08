@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -37,4 +39,10 @@ public class MenuItem extends BaseEntity {
     @JoinColumn(name = "category_id",nullable = false)
     @ToString.Exclude
     private MenuCategory category;
+
+    @ElementCollection
+    @CollectionTable(name = "menu_item_variants", joinColumns = @JoinColumn(name = "menu_item_id"))
+    @MapKeyColumn(name = "variant_name") // küçük orta büyük
+    @Column(name = "price")
+    private Map<String, BigDecimal> variants = new HashMap<>();
 }

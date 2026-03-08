@@ -21,4 +21,6 @@ public class DtoOrderItem {
 
     //helper
     private BigDecimal subTotal;
+
+    private String selectedVariant;
 }
