@@ -1,14 +1,12 @@
 package com.cafesaas.backend.services.impl;
 
 import com.cafesaas.backend.dto.DtoOrderCreateIU;
-import com.cafesaas.backend.dto.DtoOrderItem;
 import com.cafesaas.backend.dto.DtoOrderItemIU;
 import com.cafesaas.backend.entities.MenuItem;
 import com.cafesaas.backend.entities.Order;
 import com.cafesaas.backend.entities.OrderItem;
 import com.cafesaas.backend.exception.BaseException;
 import com.cafesaas.backend.exception.MessageType;
-import com.cafesaas.backend.model.enums.OrderStatus;
 import com.cafesaas.backend.repository.CafeRepository;
 import com.cafesaas.backend.repository.MenuItemRepository;
 import com.cafesaas.backend.repository.OrderRepository;
@@ -36,7 +34,6 @@ public class TerminalServiceImpl implements ITerminalService {
     public void createOrderAtTerminal(DtoOrderCreateIU dtoOrderCreateIU, UUID cafeId) {
         Order order = new Order();
         order.setCafe(cafeRepository.getReferenceById(cafeId));
-        order.setStatus(OrderStatus.COMPLETED);
         order.setPaymentMethod(dtoOrderCreateIU.getPaymentMethod());
 
         BigDecimal calculatedTotal = BigDecimal.ZERO;
@@ -51,21 +48,37 @@ public class TerminalServiceImpl implements ITerminalService {
             }
 
             if(!product.isAvailable()){
-                throw new RuntimeException(product.getName() + "şu anda satışa kapalıdır");
+                throw new RuntimeException(product.getName() + " şu anda satışa kapalıdır");
+            }
+            BigDecimal actualPrice = product.getPrice();
+            String selectedVariant = itemDto.getSelectedVariant();
+
+            if (selectedVariant != null && !selectedVariant.isEmpty()) {
+                if (product.getVariants() != null && product.getVariants().containsKey(selectedVariant)) {
+                    actualPrice = product.getVariants().get(selectedVariant);
+                } else {
+                    throw new RuntimeException(product.getName() + " için geçersiz varyant seçimi: " + selectedVariant);
+                }
+            } else {
+                if (product.getVariants() != null && !product.getVariants().isEmpty()) {
+                    throw new RuntimeException(product.getName() + " siparişi için boyut/seçenek belirtmek zorundasınız");
+                }
             }
 
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
                     .menuItem(product)
                     .productName(product.getName())
-                    .priceAtPurchase(product.getPrice())
+                    .priceAtPurchase(actualPrice)
+                    .selectedVariant(selectedVariant)
                     .quantity(itemDto.getQuantity())
                     .build();
 
             orderItems.add(orderItem);
-            BigDecimal lineTotal = product.getPrice().multiply(BigDecimal.valueOf(itemDto.getQuantity()));
+            BigDecimal lineTotal = actualPrice.multiply(BigDecimal.valueOf(itemDto.getQuantity()));
             calculatedTotal = calculatedTotal.add(lineTotal);
         }
+
         order.setTotalAmount(calculatedTotal);
         order.setItems(orderItems);
 

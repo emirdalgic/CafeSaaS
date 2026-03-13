@@ -1,7 +1,5 @@
 package com.cafesaas.backend.entities;
 
-import com.cafesaas.backend.model.enums.OrderStatus;
-import com.cafesaas.backend.model.enums.OrderSource;
 import com.cafesaas.backend.model.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,25 +29,6 @@ public class Order extends BaseEntity{
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
-
-
-    @Column(name = "table_name", nullable = true)
-    private String tableName; // sadece qrdan gelen siparişlerde tablename toplanır
-
-
-
-    //belki ilerde paranın cash mi postan mı yapıldığını tutarız
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private OrderSource source = OrderSource.TERMINAL; // QR_MENU veya Terminal
-
-    /*
-    WAITING_FOR_APPROVAL(false),
-    APPROVED_PAYMENT_PENDING(false),
-    COMPLETED(true),
-    CANCELLED(true);*/
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", nullable = false)

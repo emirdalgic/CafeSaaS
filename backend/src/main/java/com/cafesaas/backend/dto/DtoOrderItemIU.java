@@ -18,4 +18,6 @@ public class DtoOrderItemIU {
     private UUID itemId; //hangi ürün
     @Min(value = 1, message = "ürün adeti en az 1 olmalıdır")
     private int quantity;
+
+    private String selectedVariant;
 }

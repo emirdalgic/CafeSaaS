@@ -11,6 +11,7 @@ import lombok.Setter;
 
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -30,4 +31,6 @@ public class DtoMenuItemIU {
 
     @NotNull(message = "please indicate the category id")
     private UUID categoryId;
+
+    private Map<String, BigDecimal> variants;
 }

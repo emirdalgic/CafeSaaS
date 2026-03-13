@@ -19,5 +19,4 @@ public class DtoOrderCreateIU {
     private List<DtoOrderItemIU> items;
     @NotNull
     private PaymentMethod paymentMethod;
-    private String tableName;
 }
