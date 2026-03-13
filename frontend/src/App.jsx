@@ -3,13 +3,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from "../src/global-components/ProtectedRoutes"
 
 // src/pages
-import MenuPage from './pages/MenuPage'
-import AuthPage from './pages/AuthPage'
+import MenuPage from './pages/MenuPage/MenuPage'
+import AuthPage from './pages/AuthPage/AuthPage'
 import DashboardPage from './pages/DashboardPage/DashboardPage'
-import TerminalPage from './pages/TerminalPage'
-import TerminalLogin from './pages/TerminalLogin'
-import Unauthorized from './pages/Unauthorized'
-import LandingPage from './pages/LandingPage'
+import TerminalPage from './pages/TerminalPage/TerminalPage'
+import TerminalLogin from './pages/TerminalLogin/TerminalLogin'
+import Unauthorized from './pages/Unauthorized/Unauthorized'
+import LandingPage from './pages/LandingPage/LandingPage'
 function App() {
   return (
     <BrowserRouter>
