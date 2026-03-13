@@ -1,0 +1,106 @@
+/* AuthPage.css */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #dfdfdf; /* Dashboard panelleri ile aynı arka plan */
+}
+
+.auth-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  padding: 48px 40px;
+  border-radius: 15px; /* Dashboard kartlarındaki 15px kavis */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.auth-header p {
+  color: #666666;
+  font-size: 0.95rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+.auth-input {
+  height: 54px;
+  padding: 0 16px;
+  background-color: transparent;
+  border: 1px solid #cccccc;
+  border-radius: 8px; /* Dashboard arama çubuğu ve buton kavisleri (8px) */
+  font-size: 1rem;
+  color: #000000;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.auth-input::placeholder {
+  color: #cccccc;
+}
+
+.auth-input:focus {
+  border-color: #000000;
+}
+
+.auth-button {
+  height: 54px;
+  background-color: #000000; /* Dashboard dominant siyahı */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.auth-button:hover {
+  background-color: #333333;
+}
+
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666666;
+}
+
+.auth-footer a {
+  color: #000000;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
