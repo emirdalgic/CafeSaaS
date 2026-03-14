@@ -1,0 +1,154 @@
+.settings-management-container {
+  padding: 30px;
+  color: #333;
+  max-width: 1000px; 
+  margin: 0 auto;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.settings-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.primary-btn {
+  background-color: #000000;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.primary-btn:hover {
+  opacity: 0.8;
+}
+
+.settings-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-wide-card {
+  background: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.card-section-title h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #1a1a1a;
+}
+
+.card-section-title p {
+  margin: 0 0 25px 0;
+  font-size: 14px;
+  color: #777;
+}
+
+
+.card-content-horizontal {
+  display: flex;
+  gap: 60px; 
+  padding-top: 10px;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #999;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.value {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.role-badge {
+  background: #f5f5f5;
+  padding: 2px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  width: fit-content;
+}
+
+.card-content-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.status-indicator .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #ffeded;
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+  .card-content-horizontal {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .card-content-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .logout-btn {
+    width: 100%;
+  }
+}
