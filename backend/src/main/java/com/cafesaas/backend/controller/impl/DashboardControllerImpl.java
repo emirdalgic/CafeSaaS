@@ -2,10 +2,12 @@ package com.cafesaas.backend.controller.impl;
 
 import com.cafesaas.backend.controller.IDashboardController;
 import com.cafesaas.backend.dto.DtoDashboardSummary;
+import com.cafesaas.backend.dto.DtoOrderHistory;
 import com.cafesaas.backend.dto.DtoPopulerItem;
 import com.cafesaas.backend.dto.DtoSalesChart;
 import com.cafesaas.backend.services.IDashboardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +51,15 @@ public class DashboardControllerImpl implements IDashboardController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
         return ResponseEntity.ok(dashboardService.getPopularItems(cafeId, startDate, endDate));
+    }
+
+    @GetMapping("/{cafeId}/history")
+    @Override
+    public ResponseEntity<Page<DtoOrderHistory>> getOrderHistory(
+            @PathVariable(name = "cafeId") UUID cafeId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(dashboardService.getOrderHistory(cafeId, page, size));
     }
 }

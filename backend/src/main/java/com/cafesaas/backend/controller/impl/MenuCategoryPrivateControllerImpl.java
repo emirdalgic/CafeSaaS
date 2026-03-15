@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -38,5 +39,13 @@ public class MenuCategoryPrivateControllerImpl implements IMenuCategoryPrivateCo
     public ResponseEntity<DtoMenuCategory> updateCategoryMenuNameById(@PathVariable(name = "categoryId") UUID categoryId,
                                                                   @RequestBody @Valid DtoMenuCategoryUpdateIU dtoMenuCategoryUpdateIU) {
         return ResponseEntity.ok(menuCategoryService.updateCategoryMenuNameById(categoryId, dtoMenuCategoryUpdateIU));
+    }
+
+
+    @GetMapping("/list/{cafeId}")
+    @Override
+    public ResponseEntity<List<DtoMenuCategory>> getAllCategoriesByCafeId(@PathVariable(name = "cafeId") UUID cafeId) {
+
+        return ResponseEntity.ok(menuCategoryService.getAllCategoriesByCafeId(cafeId));
     }
 }

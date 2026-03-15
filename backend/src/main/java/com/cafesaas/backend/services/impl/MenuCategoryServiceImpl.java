@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +79,14 @@ public class MenuCategoryServiceImpl implements IMenuCategoryService {
         menuCategory.setName(dtoMenuCategoryUpdateIU.getName());
         MenuCategory updatedCategory = menuCategoryRepository.save(menuCategory);
         return mapToDto(updatedCategory);
+    }
+
+    @Override
+    public List<DtoMenuCategory> getAllCategoriesByCafeId(UUID cafeId) {
+        accessControllService.checkCafeAccess(cafeId);
+
+        return menuCategoryRepository.findByCafe_Id(cafeId).stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 }

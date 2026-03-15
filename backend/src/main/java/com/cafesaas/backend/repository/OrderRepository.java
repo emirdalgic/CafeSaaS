@@ -3,6 +3,8 @@ package com.cafesaas.backend.repository;
 import com.cafesaas.backend.dto.ChartRawData;
 import com.cafesaas.backend.dto.DtoDashboardSummary;
 import com.cafesaas.backend.entities.Order;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,4 +34,6 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
     List<ChartRawData> getRawChartData(@Param("cafeId") UUID cafeId,
                                        @Param("startDate") LocalDateTime startDate,
                                        @Param("endDate") LocalDateTime endDate);
+
+    Page<Order> findAllByCafe_IdOrderByCreatedAtDesc(UUID cafeId, Pageable pageable);
 }

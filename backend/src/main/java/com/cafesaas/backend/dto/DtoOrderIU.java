@@ -13,7 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DtoOrderIU {
-    private String tableNumber;
     private UUID cafeId;
     private List<DtoOrderItemIU> items;
 }

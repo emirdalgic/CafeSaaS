@@ -1,6 +1,7 @@
 package com.cafesaas.backend.controller.impl;
 
 import com.cafesaas.backend.controller.ICafeController;
+import com.cafesaas.backend.dto.DtoCafePublic;
 import com.cafesaas.backend.dto.DtoCafeRegisterIU;
 import com.cafesaas.backend.dto.DtoCafeSummary;
 import com.cafesaas.backend.dto.DtoCafeUpdateIU;
@@ -14,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -48,5 +50,11 @@ public class CafeControllerImpl implements ICafeController {
         UUID userId = userService.findIdByUsername(userDetails);
         cafeService.deleteCafe(cafeId, userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/my-cafes")
+    @Override
+    public ResponseEntity<List<DtoCafePublic>> getMyCafes(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(cafeService.getMyCafes(userDetails.getUsername()));
     }
 }

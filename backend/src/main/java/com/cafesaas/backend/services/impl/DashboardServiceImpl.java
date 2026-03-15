@@ -1,13 +1,12 @@
 package com.cafesaas.backend.services.impl;
 
-import com.cafesaas.backend.dto.ChartRawData;
-import com.cafesaas.backend.dto.DtoDashboardSummary;
-import com.cafesaas.backend.dto.DtoPopulerItem;
-import com.cafesaas.backend.dto.DtoSalesChart;
+import com.cafesaas.backend.dto.*;
+import com.cafesaas.backend.entities.Order;
 import com.cafesaas.backend.repository.OrderItemRepository;
 import com.cafesaas.backend.repository.OrderRepository;
 import com.cafesaas.backend.services.IDashboardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -97,5 +96,32 @@ public class DashboardServiceImpl implements IDashboardService {
         }
 
         return popularItems;
+    }
+
+    @Override
+    public Page<DtoOrderHistory> getOrderHistory(UUID cafeId, int page, int size) {
+        Page<Order> orderPage = orderRepository.findAllByCafe_IdOrderByCreatedAtDesc(
+                cafeId, PageRequest.of(page, size)
+        );
+
+        return orderPage.map(order -> {
+
+            List<DtoOrderHistoryItem> itemDtos = order.getItems().stream()
+                    .map(item -> DtoOrderHistoryItem.builder()
+                            .productName(item.getProductName())
+                            .selectedVariant(item.getSelectedVariant())
+                            .quantity(item.getQuantity())
+                            .price(item.getPriceAtPurchase())
+                            .build())
+                    .toList();
+
+            return DtoOrderHistory.builder()
+                    .orderId(order.getId())
+                    .totalAmount(order.getTotalAmount())
+                    .paymentMethod(order.getPaymentMethod().name())
+                    .createdAt(order.getCreatedAt())
+                    .items(itemDtos)
+                    .build();
+        });
     }
 }

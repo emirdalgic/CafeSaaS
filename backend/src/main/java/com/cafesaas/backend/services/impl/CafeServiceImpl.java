@@ -1,5 +1,6 @@
 package com.cafesaas.backend.services.impl;
 
+import com.cafesaas.backend.dto.DtoCafePublic;
 import com.cafesaas.backend.dto.DtoCafeRegisterIU;
 import com.cafesaas.backend.dto.DtoCafeSummary;
 import com.cafesaas.backend.dto.DtoCafeUpdateIU;
@@ -21,6 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.access.AccessDeniedException;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -33,7 +36,16 @@ public class CafeServiceImpl implements ICafeService {
 
     //helper
     private DtoCafeSummary mapToDto(Cafe cafe){
-        return null;
+        if (cafe == null) {
+            return null;
+        }
+        return DtoCafeSummary.builder()
+                .id(cafe.getId())
+                .cafeName(cafe.getCafeName())
+                .cafeUsername(cafe.getCafeUsername())
+                .slug(cafe.getSlug())
+                .role(cafe.getRole())
+                .build();
     }
 
     @Transactional
@@ -89,6 +101,7 @@ public class CafeServiceImpl implements ICafeService {
         return mapToDto(savedCafe);
     }
 
+    @Transactional
     @Override
     public DtoCafeSummary updateCafe(DtoCafeUpdateIU dtoCafeUpdateIU, UUID userId, UUID cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
@@ -124,5 +137,26 @@ public class CafeServiceImpl implements ICafeService {
         }
 
         cafeRepository.delete(cafe);
+    }
+
+    @Override
+    public List<DtoCafePublic> getMyCafes(String username) {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new BaseException(MessageType.NO_RECORD_EXIST));
+
+        List<Cafe> cafes = user.getCafes();
+        if (cafes == null || cafes.isEmpty()) {
+            throw new RuntimeException("Kayıtlı bir kafeniz bulunmamaktadır. Lütfen kafe oluşturun.");
+        }
+
+        return cafes.stream().map(cafe -> {
+            DtoCafePublic dto = new DtoCafePublic();
+            dto.setId(cafe.getId());
+            dto.setCafeName(cafe.getCafeName());
+            dto.setSlug(cafe.getSlug());
+            dto.setAddress(cafe.getAddress());
+            dto.setPhone(cafe.getPhone());
+            return dto;
+        }).toList();
     }
 }
